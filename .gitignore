@@ -1,0 +1,59 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local env files
+.env*.local
+.env
+.env.*
+.env.docker
+.env.production
+.env.staging
+
+# docker & container security
+.docker/
+docker-compose.override.yml
+docker-compose.local.yml
+docker-compose*.override.yml
+docker-compose.env
+secrets/
+*.key
+*.pem
+*.cert
+*.crt
+*.pfx
+mongo_data/
+minio_data/
+seaweedfs_data/
+data/
+*.tar
+*.tar.gz
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
