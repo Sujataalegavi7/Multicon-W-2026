@@ -4,7 +4,7 @@
 
 The confirmed public domain is `multicon-w.com`. Set `DOMAIN=multicon-w.com` and `APP_URL=https://multicon-w.com` in the Dokploy environment. Keep `APP_URL` on HTTPS so the production session cookie is marked `Secure` and generated sitemap, robots, and canonical metadata use the public URL.
 
-Copy `.env.example` as a checklist for required variables. Supply every `REPLACE_*` value through Dokploy's secret/environment settings or a protected server-side `.env`; do not put real values in this repository. Use an alphanumeric MongoDB root username and a long hexadecimal root password because Compose inserts them into a MongoDB URI. Use unique, long values for the S3 secret, JWT secret (at least 32 characters), and administrator password. Deliver administrator credentials over a secure channel.
+Set the required variables directly in Dokploy's environment/secret settings; production does not need `.env.example` or a repository `.env` file. Required values are `DOMAIN`, `APP_URL`, `MONGO_ROOT_USER`, `MONGO_ROOT_PASSWORD`, `JWT_SECRET`, `ADMIN_LOGIN_ID`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `S3_ACCESS_KEY_ID`, and `S3_SECRET_ACCESS_KEY`. `S3_ENDPOINT`, `S3_BUCKET`, and `S3_REGION` default to the internal SeaweedFS endpoint, `my-pdfs`, and `us-east-1`. Do not put real values in the repository. Use an alphanumeric MongoDB root username and a long hexadecimal root password because Compose inserts them into a MongoDB URI. Use unique, long values for the S3 secret, JWT secret (at least 32 characters), and administrator password. Deliver administrator credentials over a secure channel.
 
 ## Services and routing
 
@@ -21,7 +21,7 @@ Do not configure Atlas IP allowlisting for this architecture. Atlas may be consi
 
 ## Deployment
 
-1. In Dokploy, configure the required environment variables from `.env.example`. Set `DOMAIN=multicon-w.com` and `APP_URL=https://multicon-w.com`. Replace all placeholders and provide the administrator seed credentials through a secure channel.
+1. In Dokploy, configure the required environment variables using its environment/secret settings. Set `DOMAIN=multicon-w.com` and `APP_URL=https://multicon-w.com`; provide administrator seed credentials through a secure channel.
 2. Confirm the external Docker network `dokploy-network` exists and that the platform's Traefik proxy is attached to it.
 3. Deploy the repository with Docker Compose. Do not add host-published ports to `web`, `app`, `mongo`, or `minio`.
 4. Configure the Cloudflare Tunnel for `multicon-w.com` to the platform's Traefik ingress according to the hosting platform's instructions.
