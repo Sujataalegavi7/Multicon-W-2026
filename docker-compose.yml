@@ -2,23 +2,28 @@
 # `internal` network with no published ports, so their credentials and
 # data can only be reached through the Next.js app.
 #
-# LOCAL DEV: web publishes port 80 directly.
-# PRODUCTION: Remove ports, add dokploy-network + Traefik labels (see Issues/issue_3.1_solved.md).
+# Production ingress is provided by Traefik on dokploy-network.
 services:
   web:
     image: nginx:1.27-alpine
-    ports: ["80:80"]
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       app:
         condition: service_healthy
-    networks: [edge]
+    networks: [edge, dokploy-network]
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=dokploy-network
+      - "traefik.http.routers.multiconw.rule=Host(`${DOMAIN:?DOMAIN must be set}`)"
+      - traefik.http.services.multiconw.loadbalancer.server.port=80
 
   app:
     build: .
     env_file: .env
+    environment:
+      MONGODB_URI: mongodb://${MONGO_ROOT_USER}:${MONGO_ROOT_PASSWORD}@mongo:27017/multiconw?authSource=admin
     depends_on:
       mongo:
         condition: service_healthy
@@ -66,6 +71,8 @@ networks:
   edge: {}
   internal:
     internal: true
+  dokploy-network:
+    external: true
 
 volumes:
   mongo_data:
