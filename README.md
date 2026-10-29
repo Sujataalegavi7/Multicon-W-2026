@@ -24,6 +24,18 @@ Set `DOMAIN`, `APP_URL`, `MONGO_ROOT_USER`, `MONGO_ROOT_PASSWORD`, `JWT_SECRET`,
 
 The project uses npm (`package-lock.json`); available scripts are `npm run dev`, `npm run build`, and `npm run typecheck`.
 
+## Database migrations
+
+If legacy records in the persistent MongoDB volume contain the obsolete `printISBN` field, run the included non-destructive migration script inside the container or against the deployment database:
+
+```bash
+node scripts/remove-print-isbn-migration.mjs
+```
+
+This migration executes an `$unset` operation on `printISBN` without modifying other fields, deleting documents, or interrupting service.
+
 ## Production deployment
 
 See [NEXT_STEPS.md](NEXT_STEPS.md) for the deployment and operational checklist. MongoDB runs in the Compose stack; Atlas is not required. Back up the `mongo_data` and `minio_data` volumes using the platform's protected backup process.
+
+For a detailed summary of all recent architectural, feature, validation, and schema changes, see [CHANGES_SUMMARY.md](CHANGES_SUMMARY.md).
