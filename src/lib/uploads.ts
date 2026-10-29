@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { HttpError } from "./http";
+import { isValidDOI, isValidISBN, DOI_ERROR_MESSAGE, ISBN_ERROR_MESSAGE } from "./validation";
 
 export const MAX_PDF = 25 * 1024 * 1024;
 export const MAX_THUMB = 2 * 1024 * 1024;
@@ -14,9 +15,12 @@ export const metaSchema = z.object({
   conferenceName: str(200).min(1, "Conference name is required"),
   conferenceDate: str(100).default(""),
   conferenceLocation: str(200).default(""),
-  doi: str(200).default(""),
-  electronicISBN: str(50).default(""),
-  printISBN: str(50).default(""),
+  doi: str(200)
+    .default("")
+    .refine((v) => isValidDOI(v), { message: DOI_ERROR_MESSAGE }),
+  electronicISBN: str(50)
+    .default("")
+    .refine((v) => isValidISBN(v), { message: ISBN_ERROR_MESSAGE }),
   keywords: str(1000).default("").transform(list),
 });
 

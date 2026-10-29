@@ -14,7 +14,6 @@ export type PaperView = {
   conferenceLocation: string;
   doi: string;
   electronicISBN: string;
-  printISBN: string;
   keywords: string[];
   pdfSize: number;
   hasThumbnail: boolean;
@@ -41,7 +40,6 @@ export function toView(p: PaperDoc & { uploadedBy: unknown }): PaperView {
     conferenceLocation: p.conferenceLocation ?? "",
     doi: p.doi ?? "",
     electronicISBN: p.electronicISBN ?? "",
-    printISBN: p.printISBN ?? "",
     keywords: p.keywords ?? [],
     pdfSize: p.pdfSize ?? 0,
     hasThumbnail: !!p.thumbnailKey,

@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   AlertTriangle,
   CheckCircle2,
@@ -14,14 +15,13 @@ import {
   X,
 } from "lucide-react";
 import StatusBadge from "@/components/StatusBadge";
-import PaperFormModal from "@/components/PaperFormModal";
 import { api, fmtDate } from "@/lib/client";
 import type { PaperView } from "@/lib/papers";
 
 export default function DashboardClient() {
+  const searchParams = useSearchParams();
   const [papers, setPapers] = useState<PaperView[] | null>(null);
   const [user, setUser] = useState<{ name: string; email?: string } | null>(null);
-  const [modal, setModal] = useState<{ paper?: PaperView } | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<PaperView | null>(null);
   const [deleteBusy, setDeleteBusy] = useState(false);
   const [error, setError] = useState("");
@@ -45,6 +45,19 @@ export default function DashboardClient() {
   useEffect(() => {
     load();
   }, [load]);
+
+  useEffect(() => {
+    const msg = searchParams.get("msg");
+    if (msg === "submitted") {
+      setSuccessMsg("Manuscript submitted successfully! It is now queued for administrative review.");
+      window.history.replaceState({}, "", "/dashboard");
+      setTimeout(() => setSuccessMsg(""), 6000);
+    } else if (msg === "updated") {
+      setSuccessMsg("Paper details updated and resubmitted for review.");
+      window.history.replaceState({}, "", "/dashboard");
+      setTimeout(() => setSuccessMsg(""), 6000);
+    }
+  }, [searchParams]);
 
   async function handleDelete() {
     if (!deleteTarget) return;
@@ -114,14 +127,13 @@ export default function DashboardClient() {
             </div>
 
             <div className="dashboard-banner__actions">
-              <button
-                type="button"
+              <Link
+                href="/dashboard/submit"
                 className="btn btn-primary dashboard-banner__btn"
-                onClick={() => setModal({})}
               >
                 <FileUp size={18} />
                 <span>Upload New Paper</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -168,13 +180,12 @@ export default function DashboardClient() {
               </p>
               <p className="mt-1 whitespace-pre-line text-amber-800">{p.adminRemarks}</p>
             </div>
-            <button
-              type="button"
-              onClick={() => setModal({ paper: p })}
+            <Link
+              href={`/dashboard/submit?id=${p.id}`}
               className="btn btn-outline btn-sm shrink-0 border-amber-400 text-amber-800 hover:bg-amber-100"
             >
               Edit &amp; Resubmit
-            </button>
+            </Link>
           </div>
         ))}
 
@@ -336,13 +347,12 @@ export default function DashboardClient() {
                             ? "Try adjusting your search query or status filter to see other papers."
                             : "You haven't submitted any papers yet. Submit your first academic manuscript to get started."}
                         </p>
-                        <button
-                          type="button"
+                        <Link
+                          href="/dashboard/submit"
                           className="btn btn-primary btn-sm"
-                          onClick={() => setModal({})}
                         >
                           Submit Manuscript
-                        </button>
+                        </Link>
                       </div>
                     </td>
                   </tr>
@@ -392,15 +402,14 @@ export default function DashboardClient() {
 
                         {p.status !== "approved" && (
                           <>
-                            <button
-                              type="button"
+                            <Link
+                              href={`/dashboard/submit?id=${p.id}`}
                               className="btn btn-outline btn-sm"
                               title="Edit manuscript details"
-                              onClick={() => setModal({ paper: p })}
                             >
                               <Pencil size={14} />
                               <span>Edit</span>
-                            </button>
+                            </Link>
                             <button
                               type="button"
                               className="btn btn-outline btn-sm"
@@ -421,24 +430,6 @@ export default function DashboardClient() {
             </table>
           </div>
         </div>
-
-        {/* Paper Form Modal */}
-        {modal && (
-          <PaperFormModal
-            paper={modal.paper}
-            onClose={() => setModal(null)}
-            onSaved={() => {
-              setModal(null);
-              setSuccessMsg(
-                modal.paper
-                  ? "Paper details updated and resubmitted for review."
-                  : "Manuscript submitted successfully! It is now queued for administrative review."
-              );
-              load();
-              setTimeout(() => setSuccessMsg(""), 6000);
-            }}
-          />
-        )}
 
         {/* Delete Confirmation Modal */}
         {deleteTarget && (

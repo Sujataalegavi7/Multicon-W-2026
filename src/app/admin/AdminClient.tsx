@@ -668,11 +668,11 @@ function ReviewModal({
                 <span className="review-modal__meta-val font-mono">{paper.doi}</span>
               </div>
             )}
-            {(paper.electronicISBN || paper.printISBN) && (
+            {(paper.electronicISBN) && (
               <div className="review-modal__meta-item">
                 <span className="review-modal__meta-label">ISBN</span>
                 <span className="review-modal__meta-val font-mono">
-                  {paper.electronicISBN || paper.printISBN}
+                  {paper.electronicISBN}
                 </span>
               </div>
             )}

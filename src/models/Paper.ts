@@ -13,7 +13,6 @@ const paperSchema = new Schema(
     conferenceLocation: { type: String, default: "" },
     doi: { type: String, default: "" },
     electronicISBN: { type: String, default: "" },
-    printISBN: { type: String, default: "" },
     keywords: { type: [String], default: [] },
     // Object keys inside the private MinIO bucket. Never a public URL.
     pdfKey: { type: String, required: true },

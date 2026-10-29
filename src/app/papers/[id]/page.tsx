@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     citation_pdf_url: `${base()}/files/pdf/${p.id}`,
   };
   if (p.doi) other.citation_doi = p.doi;
-  const isbn = p.electronicISBN || p.printISBN;
+  const isbn = p.electronicISBN;
   if (isbn) other.citation_isbn = isbn;
   if (p.keywords.length) other.citation_keywords = p.keywords.join("; ");
 
@@ -201,12 +201,6 @@ export default async function PaperPage({ params }: Props) {
                   <>
                     <dt>E-ISBN</dt>
                     <dd>{paper.electronicISBN}</dd>
-                  </>
-                )}
-                {paper.printISBN && (
-                  <>
-                    <dt>Print ISBN</dt>
-                    <dd>{paper.printISBN}</dd>
                   </>
                 )}
                 {paper.createdAt && (
