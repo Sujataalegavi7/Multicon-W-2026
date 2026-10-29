@@ -27,7 +27,7 @@ export default function LoginForm({ next }: { next: string }) {
     <div className="login-card">
       {/* Header */}
       <div className="login-card__header">
-        <Image src="/tcet-logo.png" alt="TCET Logo" width={52} height={52} className="login-card__logo" />
+        <Image src="/tcet.png" alt="TCET Logo" width={52} height={52} className="login-card__logo" />
         <div className="login-card__title">TCET Research Repository</div>
         <div className="login-card__sub">MULTICON-W Conference Papers · Secure Access</div>
       </div>

@@ -9,7 +9,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="footer__brand">
             <div className="footer__brand-wrap">
-              <Image src="/tcet-logo_1.png" alt="TCET Logo" width={48} height={48} className="footer__logo" />
+              <Image src="/tcet.png" alt="TCET Logo" width={48} height={48} className="footer__logo" />
             </div>
             <p className="footer__tagline">
               Thakur College of Engineering &amp; Technology — Advancing knowledge through
