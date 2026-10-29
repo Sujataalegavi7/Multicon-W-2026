@@ -37,5 +37,3 @@ This migration executes an `$unset` operation on `printISBN` without modifying o
 ## Production deployment
 
 See [NEXT_STEPS.md](NEXT_STEPS.md) for the deployment and operational checklist. MongoDB runs in the Compose stack; Atlas is not required. Back up the `mongo_data` and `minio_data` volumes using the platform's protected backup process.
-
-For a detailed summary of all recent architectural, feature, validation, and schema changes, see [CHANGES_SUMMARY.md](CHANGES_SUMMARY.md).
