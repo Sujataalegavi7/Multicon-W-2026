@@ -266,7 +266,7 @@ export default async function Home() {
             <div className="section__eyebrow">MULTICON-W CONFERENCE</div>
             <h2 className="about__title">
               About TCET &amp;{" "}
-              <span style={{ color: "#C41230" }}>Multicon</span>
+              <span style={{ color: "#C41230" }}>Multicon - W</span>
             </h2>
             <div className="about__title-line" />
             <p className="about__desc">
